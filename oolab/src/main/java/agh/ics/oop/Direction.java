@@ -1,9 +1,9 @@
 package agh.ics.oop;
 
 public enum Direction {
-    f,
-    b,
-    l,
-    r,
+    F,
+    B,
+    L,
+    R,
     NONE
 }
