@@ -38,7 +38,7 @@ public class World {
         }
     }
 
-    public static void main (String[]args){
+    public static void main(String[] args) {
         System.out.println("Start");
         Direction[] direction = stringToEnum(args);
         run(direction);
