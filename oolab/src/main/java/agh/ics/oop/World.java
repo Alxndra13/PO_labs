@@ -3,18 +3,35 @@ package agh.ics.oop;
 import java.util.Arrays;
 
 public class World {
-    public static void run(String[] args){
-        System.out.println("zwierzak idzie do przodu");
-        System.out.print(args[0]);
-        for(int i=1; i<args.length; i++){
-            System.out.print(", ");
-            System.out.print(args[i]);
+    public static Direction stringToEnum(String[] args) {
+        Direction direction = Direction.NONE;
+        for (int i = 0; i < args.length; i++) {
+            String argument = args[i];
+            switch (argument) {
+                case "f":
+                    direction = Direction.valueOf("f");
+                    break;
+                case "b":
+                    direction = Direction.valueOf("b");
+                    break;
+                case "r":
+                    direction = Direction.valueOf("r");
+                    break;
+                case "l":
+                    direction = Direction.valueOf("l");
+                    break;
+            }
         }
-        System.out.println(" ");
+        return direction;
+    }
 
+    public static String[] names() {
+        return Arrays.stream(Direction.values()).map(Enum::name).toArray(String[]::new);
+    }
 
-
-        for (int i=0; i<args.length; i++){
+    public static void run(Direction direction) {
+        String[] args = names();
+        for (int i = 0; i < args.length; i++) {
             String message = switch (args[i]) {
                 case "f" -> "Zwierzak idzie do przodu";
                 case "b" -> "Zwierzak idzie do tylu";
@@ -26,10 +43,10 @@ public class World {
         }
     }
 
-    public static void main(String[] args){
+    public static void main (String[]args){
         System.out.println("Start");
-
-        run(args);
+        Direction direction = stringToEnum(args);
+        run(direction);
         System.out.println("Stop");
     }
 }
