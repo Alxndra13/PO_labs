@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
+
 public class World {
     public static Direction[] stringToEnum(String[] args) {
         Direction[] direction = new Direction[args.length];
@@ -39,10 +41,13 @@ public class World {
     }
 
     public static void main(String[] args) {
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
+        Animal zwierzaczek = new Animal();
+        System.out.println(zwierzaczek.toString());
+        OptionsParser parser = new OptionsParser();
+        ArrayList<MoveDirection> directions = parser.parse(args);
+        for (MoveDirection element : directions){
+            zwierzaczek.move(element);
+            System.out.println(zwierzaczek.toString());
+        }
     }
 }
