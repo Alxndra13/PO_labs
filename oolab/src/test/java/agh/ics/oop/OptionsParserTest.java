@@ -11,8 +11,12 @@ class OptionsParserTest {
     @Test
     void parseTest(){
         OptionsParser parser = new OptionsParser();
-        ArrayList<MoveDirection> directions = new ArrayList<>(Arrays.asList(MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD));
-        assertEquals(directions, parser.parse(new String[]{"f", "f", "f", "mlem", "r", "r", "f", "f", "b"}));
+        MoveDirection[] directions = {MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD,
+                MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD,
+                MoveDirection.BACKWARD};
+        assertTrue(Arrays.equals(directions, parser.parse(new String[]{"f", "f", "f", "mlem", "r", "r", "f", "f", "b"})));
+
+        assertArrayEquals(directions, parser.parse(new String[]{"f", "f", "f", "mlem", "r", "r", "f", "f", "b"}));
     }
 
 }

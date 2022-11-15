@@ -1,10 +1,25 @@
 package agh.ics.oop;
 
-import java.util.Map;
-
 public class Animal {
-    private MapDirection direction = MapDirection.NORTH;
-    private Vector2d position = new Vector2d(2,2);
+    private MapDirection direction;
+    private Vector2d position;
+    private IWorldMap map;
+
+    public Animal(){
+        this.direction = MapDirection.NORTH;
+        this.position = new Vector2d(2,2);
+    }
+
+    public Animal(IWorldMap map){
+        this();
+        this.map = map;
+
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        this(map);
+        this.position = initialPosition;
+    }
 
     public MapDirection getDirection() {
         return direction;
@@ -16,13 +31,13 @@ public class Animal {
 
     @Override
     public String toString(){
-        return "position: " + this.position.toString() + ", direction: " + this.direction;
+        return this.direction.toString();
     }
 
     public boolean isAt(Vector2d position){
         return position.equals(this.position);
     }
-    public void move(MoveDirection direction){ //pozbyc sie this gdzie useless
+    public void move(MoveDirection direction){
         Vector2d tempPosition = new Vector2d(1,1);
         switch (direction){
             case RIGHT -> {this.direction = this.direction.next(); return;}
@@ -30,8 +45,6 @@ public class Animal {
             case FORWARD -> tempPosition = this.position.add(this.direction.toUnitVector());
             case BACKWARD -> tempPosition = this.position.subtract(this.direction.toUnitVector());
         }
-
-        if (tempPosition.x > 4 || tempPosition.x < 0 || tempPosition.y >4 || tempPosition.y<0) return;
-        else this.position = tempPosition;
+        if (map.canMoveTo(tempPosition)) this.position = tempPosition;
     }
 }
