@@ -19,10 +19,6 @@ class SimulationEngine implements IEngine {
         }
     }
 
-    public MoveDirection[] getDirections() {
-        return directions;
-    }
-
     public List<Animal> getAnimals() {
         return animals;
     }

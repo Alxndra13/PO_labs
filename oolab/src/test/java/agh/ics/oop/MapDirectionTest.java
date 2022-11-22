@@ -28,6 +28,6 @@ public class MapDirectionTest {
         assertEquals(test.previous(), MapDirection.EAST);
         test = MapDirection.WEST;
         assertEquals(test.previous(), MapDirection.SOUTH);
-
     }
+
 }

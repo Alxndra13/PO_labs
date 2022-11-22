@@ -46,20 +46,20 @@ class AnimalTest {
         for(int i=0; i<3; i++) {
             kotek.move(MoveDirection.FORWARD);
         }
-        assertEquals(kotek.getPosition(), new Vector2d(2,4));
+        assertEquals(kotek.getPosition(), new Vector2d(2,5));
         assertEquals(kotek.getDirection(), MapDirection.NORTH);
 
         kotek.move(MoveDirection.LEFT);
         for(int i=0; i<3; i++){
             kotek.move(MoveDirection.FORWARD);
         }
-        assertEquals(kotek.getPosition(), new Vector2d(0,4));
+        assertEquals(kotek.getPosition(), new Vector2d(0,5));
         assertEquals(kotek.getDirection(), MapDirection.WEST);
 
         for(int i=0; i<4; i++) {
             kotek.move(MoveDirection.BACKWARD);
         }
-        assertEquals(kotek.getPosition(), new Vector2d(4,4));
+        assertEquals(kotek.getPosition(), new Vector2d(4,5));
         assertEquals(kotek.getDirection(), MapDirection.WEST);
 
         for(int i=0; i<3; i++){
@@ -68,7 +68,7 @@ class AnimalTest {
         for(int i=0; i<4; i++) {
             kotek.move(MoveDirection.FORWARD);
         }
-        assertEquals(kotek.getPosition(), new Vector2d(4,0));
+        assertEquals(kotek.getPosition(), new Vector2d(4,1));
         assertEquals(kotek.getDirection(), MapDirection.SOUTH);
 
     }

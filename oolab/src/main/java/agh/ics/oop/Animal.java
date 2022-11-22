@@ -1,50 +1,60 @@
 package agh.ics.oop;
 
-public class Animal {
-    private MapDirection direction;
-    private Vector2d position;
+public class Animal extends AbstractWorldMapElement{
+    private MapDirection direction = MapDirection.NORTH;
     private IWorldMap map;
 
     public Animal(){
-        this.direction = MapDirection.NORTH;
-        this.position = new Vector2d(2,2);
+        super(new Vector2d(2,2));
+        this.map = new RectangularMap(4,4);
     }
 
     public Animal(IWorldMap map){
-        this();
+        super(new Vector2d(2,2));
         this.map = map;
 
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition){
-        this(map);
-        this.position = initialPosition;
+        super(initialPosition);
+        this.map = map;
     }
 
     public MapDirection getDirection() {
         return direction;
     }
 
-    public Vector2d getPosition() {
-        return position;
-    }
-
     @Override
     public String toString(){
-        return this.direction.toString();
+        return this.getDirection().toString();
     }
 
-    public boolean isAt(Vector2d position){
-        return position.equals(this.position);
-    }
     public void move(MoveDirection direction){
-        Vector2d tempPosition = new Vector2d(1,1);
+        Vector2d tempPosition;
         switch (direction){
-            case RIGHT -> {this.direction = this.direction.next(); return;}
-            case LEFT -> {this.direction = this.direction.previous(); return;}
-            case FORWARD -> tempPosition = this.position.add(this.direction.toUnitVector());
-            case BACKWARD -> tempPosition = this.position.subtract(this.direction.toUnitVector());
+            case RIGHT -> this.direction = this.direction.next();
+            case LEFT -> this.direction = this.direction.previous();
+            case FORWARD -> {
+                tempPosition = this.position.add(this.direction.toUnitVector());
+                if (map instanceof GrassField && updatePosition(tempPosition)) break;
+                else if (map.canMoveTo(tempPosition)) this.position = tempPosition;
+            }
+            case BACKWARD -> {
+                tempPosition = this.position.subtract(this.direction.toUnitVector());
+                if (map instanceof GrassField && updatePosition(tempPosition)) break;
+                else if (map.canMoveTo(tempPosition)) this.position = tempPosition;
+            }
         }
-        if (map.canMoveTo(tempPosition)) this.position = tempPosition;
+    }
+
+    public boolean updatePosition(Vector2d tempPosition){
+        GrassField grassMap = (GrassField) this.map; //obiekt typu grassField
+        if(grassMap.objectAt(tempPosition) instanceof Grass){ //jeśli w danym miejscu jest kępka trawy
+            //losujemy kępce trawy nowe miejsce
+            ((Grass) grassMap.objectAt(tempPosition)).position = grassMap.randomPosition();
+            this.position = tempPosition; //zwierzę wchodzi na docelową pozycję
+            return true;
+        }
+        return false;
     }
 }
