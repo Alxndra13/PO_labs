@@ -1,6 +1,5 @@
 package agh.ics.oop;
 
-
 public class GrassField extends AbstractWorldMap {
     int tuftsNumber;
 
@@ -16,27 +15,19 @@ public class GrassField extends AbstractWorldMap {
         while (tufts.size() < tuftsNumber){ //dopóki nie będzie ich docelowa liczba
             //losujemy kępkom miejsce na mapie w obszarze (0,0) - (edge,edge)
             Vector2d tuftPosition = randomPosition();
-            tufts.add(new Grass(tuftPosition));
+            tufts.put(tuftPosition, new Grass(tuftPosition));
         }
     }
 
     @Override
     public boolean isOccupied(Vector2d position) {
         if (super.isOccupied(position)) return true;
-        for (Grass tuft : tufts){
-            if (tuft.isAt(position)) return true;
-        }
-        return false;
+        return tufts.containsKey(position);
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        if (super.objectAt(position) != null) return super.objectAt(position); //czy jest zwierze
-        else {//czy jest trawa
-            for (Grass tuft : tufts) {
-                if (tuft.isAt(position)) return tuft; //czy jest trawa
-            }
-            return null;
-        }
+        if (super.objectAt(position) != null) return super.objectAt(position); //jeśli jest tam zwierze
+        return tufts.get(position); //zwraca kępke trawy jeśli znajdzie (inaczej null)
     }
 }
