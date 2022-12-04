@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 public class Animal extends AbstractWorldMapElement{
     private MapDirection direction = MapDirection.NORTH;
-    private IWorldMap map;
+    private final IWorldMap map;
 
 
     public Animal(){
@@ -80,7 +80,7 @@ public class Animal extends AbstractWorldMapElement{
     }
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
-        for(IPositionChangeObserver observer : this.observers){
+        for(IPositionChangeObserver observer : observers){
             observer.positionChanged(oldPosition, newPosition);
         }
     }

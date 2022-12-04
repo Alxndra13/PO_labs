@@ -16,6 +16,7 @@ public class GrassField extends AbstractWorldMap {
             //losujemy kępkom miejsce na mapie w obszarze (0,0) - (edge,edge)
             Vector2d tuftPosition = randomPosition();
             tufts.put(tuftPosition, new Grass(tuftPosition));
+            boundary.addPosition(tuftPosition);
         }
     }
 

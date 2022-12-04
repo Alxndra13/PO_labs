@@ -3,7 +3,7 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 
-class SimulationEngine implements IEngine {
+public class SimulationEngine implements IEngine {
 
     private final MoveDirection[] directions;
     private final IWorldMap map;
