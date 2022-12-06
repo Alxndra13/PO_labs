@@ -7,6 +7,7 @@ public class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
     protected HashMap<Vector2d,Animal> animals = new HashMap<>();
     protected HashMap<Vector2d,Grass> tufts = new HashMap<>();
+
     //    obszar poruszania się zwierząt
     protected Vector2d botLeft;
     protected Vector2d topRight;
@@ -18,7 +19,7 @@ public class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     //potrzebne do losowania nowych miejsc dla kępek trawy
     private final Random random = new Random();
 
-    public MapBoundary boundary = new MapBoundary();
+    public MapBoundary boundary = new MapBoundary(); //nowe metody obliczania granic wizualnej mapy
 
     public AbstractWorldMap(Vector2d topRight, Vector2d botLeft, int edge) {
         if (topRight.follows(botLeft)) {

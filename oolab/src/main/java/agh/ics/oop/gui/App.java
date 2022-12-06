@@ -24,7 +24,7 @@ public class App extends Application{
 //            Vector2d[] positions = { new Vector2d(2,2), new Vector2d(2,2), new Vector2d(3,4)};
             IEngine engine = new SimulationEngine(directions, map, positions);
             engine.run();
-            drawGrid(primaryStage);
+            drawGrid(primaryStage); //wywolanie rysowania mapy
         }
         catch (IllegalArgumentException exception){
             System.out.println(exception);
@@ -45,7 +45,6 @@ public class App extends Application{
         GridPane grid = new GridPane();
         grid.setGridLinesVisible(true);
 
-
         //lewy górny róg
         Label label = new Label("x/y");
         grid.getColumnConstraints().add(new ColumnConstraints(width));
@@ -53,7 +52,7 @@ public class App extends Application{
         grid.add(label,0,0);
         GridPane.setHalignment(label, HPos.CENTER);
 
-
+        // os X
         for(int i=xMin; i<=xMax; i++){
             label = new Label(Integer.toString(i));
             GridPane.setHalignment(label, HPos.CENTER);
@@ -61,6 +60,7 @@ public class App extends Application{
             grid.add(label, i-xMin+1, 0);
         }
 
+        //os Y
         for (int i=yMax; i >= yMin; i--){
             label = new Label((Integer.toString(i)));
             GridPane.setHalignment(label, HPos.CENTER);
