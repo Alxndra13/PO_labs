@@ -4,46 +4,89 @@ import agh.ics.oop.*;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application{
 
     private AbstractWorldMap map;
+    private MapDirection startDirection = MapDirection.NORTH;
+    private GridPane grid;
+
+    //f b r l f f r r f f f f f f f f
 
     @Override
     public void start(Stage primaryStage){
-        try {
-            String[] args = getParameters().getRaw().toArray(new String[0]);
-            MoveDirection[] directions = new OptionsParser().parse(args);
-            map = new GrassField(10);
-            Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4)};
-//            Vector2d[] positions = { new Vector2d(2,2), new Vector2d(2,2), new Vector2d(3,4)};
-            IEngine engine = new SimulationEngine(directions, map, positions);
-            engine.run();
-            drawGrid(primaryStage); //wywolanie rysowania mapy
-        }
-        catch (IllegalArgumentException exception){
-            System.out.println(exception);
-        }
+        TextField text = new TextField(); //pole tekstowe na sekwencje ruchów
+        text.setMaxWidth(500);
+        grid = new GridPane();
+        drawGrid(new GrassField(10)); //startowa mapa
+        VBox vBox = new VBox(grid, text, createStartButton(text), createDirectionButton());
+
+        Scene scene = new Scene(vBox, 600, 700);
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
     }
 
-    public void drawGrid(Stage primaryStage){
+    public Button createStartButton(TextField text){
+        Button startButton = new Button("START");
+        startButton.setOnAction((action) ->{ //na klikniecie przycisku
+            String args = text.getText();
+            try {
+                MoveDirection[] directions = new OptionsParser().parse(args.split(" "));
+                Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4)};
+                IEngine engine = new SimulationEngine(directions, map, positions, this, startDirection);
+                Thread thread = new Thread(engine::run); //thread na metodzie engine.run
+                thread.start();
+            } catch (IllegalArgumentException e) //obsługa błędnych argumentów i zduplikowanych zwierząt
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Exception alert");
+                alert.setHeaderText(e.getMessage());
+                alert.setContentText("You need to correct it!");
+                alert.showAndWait();
+            }
+        });
+        return startButton;
+    }
 
+    public Button createDirectionButton(){ //przycik zmiany startowej orientacji
+        Button dirButton = new Button(startDirection.toString());
+        dirButton.setOnAction((action) -> {
+            startDirection = startDirection.next();
+            dirButton.setText(startDirection.toString());
+        });
+        return dirButton;
+    }
+
+
+    public void drawGrid(GrassField newMap){
+
+        //wyczyszczenie
+        grid.setGridLinesVisible(false);
+        grid.getColumnConstraints().clear();
+        grid.getRowConstraints().clear();
+        grid.getChildren().clear();
+        grid.setGridLinesVisible(true);
+        map = newMap;
+
+        //granice mapy
         int xMin = map.boundary.getBottomLeft().x;
         int yMin = map.boundary.getBottomLeft().y;
         int xMax = map.boundary.getTopRight().x;
         int yMax = map.boundary.getTopRight().y;
 
-        int width = 30;
-        int height = 30;
-
-        GridPane grid = new GridPane();
-        grid.setGridLinesVisible(true);
+        //rozmiar okienek
+        int width = 40;
+        int height = 40;
 
         //lewy górny róg
         Label label = new Label("x/y");
@@ -74,16 +117,12 @@ public class App extends Application{
             for (int y=yMax; y>=yMin; y--){
                 Vector2d position = new Vector2d(x,y);
                 if (map.objectAt(position) != null){
-                    Object object = map.objectAt(position);
-                    label = new Label(object.toString());
-                    grid.add(label, position.x-xMin+1, yMax-position.y+1);
+                    GuiElementBox vBox = new GuiElementBox((IMapElement) map.objectAt(position));
+                    label = new Label();
                     GridPane.setHalignment(label, HPos.CENTER);
+                    grid.add(vBox.vBox, position.x-xMin+1, yMax-position.y+1);
                 }
             }
         }
-
-        Scene scene = new Scene(grid, 500, 500);
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 }

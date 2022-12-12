@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class OptionsParser {
-    public MoveDirection[] parse(String[] args){
+    public MoveDirection[] parse(String[] args) throws IllegalArgumentException{
         return Arrays.stream(args).map(x->switch (x){
             case "f", "forward" -> MoveDirection.FORWARD;
             case "b", "backward" -> MoveDirection.BACKWARD;

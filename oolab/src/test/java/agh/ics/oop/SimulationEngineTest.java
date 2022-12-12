@@ -11,11 +11,11 @@ class SimulationEngineTest {
     @Test
     void runTest() {
         //normal test
-        MoveDirection[] directions = new OptionsParser().parse
-                (new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f",});
-        Vector2d[] positions = {new Vector2d(2,2), new Vector2d(3,4)};
-        IWorldMap map = new RectangularMap(20,20);
-        SimulationEngine engine = new SimulationEngine(directions, map, positions);
+//        MoveDirection[] directions = new OptionsParser().parse
+//                (new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f",});
+//        Vector2d[] positions = {new Vector2d(2,2), new Vector2d(3,4)};
+//        IWorldMap map = new RectangularMap(20,20);
+//        SimulationEngine engine = new SimulationEngine(directions, map, positions);
 
         //check the initial positions and directions of animals
 //        assertEquals(engine.getAnimals().get(0).getPosition(), new Vector2d(2,2));

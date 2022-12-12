@@ -20,6 +20,11 @@ public class Animal extends AbstractWorldMapElement{
         this.map = map;
     }
 
+    public Animal(IWorldMap map, Vector2d initialPosition, MapDirection initialDirection) {
+        this(map, initialPosition);
+        this.direction = initialDirection;
+    }
+
     public MapDirection getDirection() {
         return direction;
     }
@@ -75,13 +80,23 @@ public class Animal extends AbstractWorldMapElement{
         observers.add(observer);
     }
 
-    void removeObserver(IPositionChangeObserver observer){
-        observers.add(observer);
-    }
+//    void removeObserver(IPositionChangeObserver observer){
+//        observers.add(observer);
+//    }
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         for(IPositionChangeObserver observer : observers){
             observer.positionChanged(oldPosition, newPosition);
         }
+    }
+
+    @Override
+    public String getImageSrc() {
+        return switch (this.direction){
+            case NORTH -> "src/main/resources/up1.png";
+            case EAST -> "src/main/resources/right1.png";
+            case SOUTH -> "src/main/resources/down1.png";
+            case WEST -> "src/main/resources/left1.png";
+        };
     }
 }

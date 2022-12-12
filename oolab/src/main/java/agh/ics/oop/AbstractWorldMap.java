@@ -40,7 +40,7 @@ public class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
         boundary.addPosition(animal.getPosition());
     }
 
-    public boolean place(Animal animal){
+    public boolean place(Animal animal) throws IllegalArgumentException{
         if(objectAt(animal.getPosition()) instanceof Grass){//na docelowej pozycji jest trawa
             Vector2d oldPosition = ((Grass) objectAt(animal.getPosition())).getPosition();
             Vector2d newPosition = randomPosition();
